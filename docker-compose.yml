@@ -1,0 +1,14 @@
+services:
+  db:
+    image: mysql:8.4
+    container_name: timetracker-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: secret
+      MYSQL_DATABASE: php_08_26
+    ports:
+      - "3306:3306"
+    volumes:
+      - timetracker_db:/var/lib/mysql
+
+volumes:
+  timetracker_db:
