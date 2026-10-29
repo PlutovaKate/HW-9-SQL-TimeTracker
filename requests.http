@@ -1,0 +1,52 @@
+# Список запитів для ДЗ. Створи кожен з них вручну в Postman (див. README, «Як надсилати запити»).
+# {{baseUrl}} = http://localhost/api — змінна колекції в Postman.
+
+@baseUrl = http://localhost/api
+
+### ======================= Частина 1–2: health check і роутер =======================
+
+### A1 / Health-check → 200
+GET {{baseUrl}}/health
+
+### Неіснуючий маршрут → 404
+GET {{baseUrl}}/nope
+
+### Параметр маршруту (тимчасовий маршрут) → 200
+GET {{baseUrl}}/health/5
+
+### R1. Параметр не число → ?
+GET {{baseUrl}}/health/abc
+
+### ======================= Частина 4: логін =======================
+
+### Логін → 200 {token, user}
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{"email": "ivan@example.com", "password": "password"}
+
+### L1 / Невірний пароль → 401
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{"email": "maria@example.com", "password": "wrongpass1"}
+
+### Звільнений → 401 (та сама відповідь)
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{"email": "former@example.com", "password": "password"}
+
+### L2 / Без тіла → 422
+POST {{baseUrl}}/auth/login
+
+### Пароль "123" → 422 fields.password
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{"email": "ivan@example.com", "password": "123"}
+
+### ======================= Бонус =======================
+
+### 405: шлях є, метод ні
+POST {{baseUrl}}/health
