@@ -12,6 +12,7 @@
   "require": {
     "larapack/dd": "1.*",
     "vlucas/phpdotenv": "*",
-    "ext-pdo": "*"
+    "ext-pdo": "*",
+    "illuminate/database": "^13.39"
   }
 }

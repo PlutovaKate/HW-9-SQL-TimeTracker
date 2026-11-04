@@ -27,10 +27,57 @@ function jsonError(int $status, string $code, string $message, array $fields = [
     ], JSON_UNESCAPED_UNICODE);
 }
 
+
+function noContent(): void
+{
+    http_response_code(204);
+    header_remove('Content-Type');
+}
+
+
 function requestBody(): array
 {
     return json_decode(file_get_contents('php://input'), true) ?: [];
 }
+
+
+
+
+function apiToken(): ?string
+{
+    $header = $_SERVER['HTTP_AUTHORIZATION'] ?? '';
+
+    if (!preg_match('/^Bearer\s+(\S+)$/i', trim($header), $matches)) {
+        return null;
+    }
+
+    return $matches[1];
+}
+
+
+
+
+
+function auth(): ?\App\Models\User
+{
+    static $user = false;
+
+    if ($user === false) {
+        $token = apiToken();
+
+        $user = $token === null
+            ? null
+            : \App\Models\User::where('api_token', $token)
+            ->where('token_expired_at', '>', gmdate('Y-m-d H:i:s'))
+            ->where('is_active', true)
+            ->first();
+    }
+
+    return $user;
+}
+
+
+
 
 
 function publicUser(array $user): array
