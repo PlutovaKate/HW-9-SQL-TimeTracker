@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="uk">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Табель · TimeTracker</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' rx='4' fill='%230d7c66'/%3E%3Cpath d='M8 4v4l2.5 1.5' stroke='white' stroke-width='1.6' fill='none' stroke-linecap='round'/%3E%3C/svg%3E">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="assets/css/app.css">
+    <script src="assets/js/theme.js"></script>
+</head>
+<body data-auth="user">
+<div id="tt-navbar"></div>
+<main class="container py-4">
+    
+    <div class="d-flex flex-wrap justify-content-between align-items-end gap-3 mb-4">
+        <div>
+            <h1 class="h3 tt-page-title mb-1" id="title">Табель</h1>
+            <div class="text-body-secondary" id="subtitle"></div>
+        </div>
+        <div class="d-flex flex-wrap gap-2">
+            <div class="btn-group">
+                <button type="button" class="btn btn-outline-secondary" data-export="csv"><i class="bi bi-filetype-csv me-1"></i>CSV</button>
+                <button type="button" class="btn btn-outline-secondary" data-export="json"><i class="bi bi-filetype-json me-1"></i>JSON</button>
+                <button type="button" class="btn btn-outline-secondary" data-export="md"><i class="bi bi-markdown me-1"></i>MD</button>
+                <button type="button" class="btn btn-outline-secondary" data-export="xlsx"><i class="bi bi-filetype-xlsx me-1"></i>XLSX</button>
+            </div></div>
+    </div>
+    <div class="card mb-4"><div class="card-body">
+        <div class="row g-3 align-items-end">
+            <div class="col-sm-auto">
+                <label class="form-label" for="month">Місяць</label>
+                <div class="input-group">
+                    <button class="btn btn-outline-secondary" type="button" data-shift="-1" title="Попередній місяць"><i class="bi bi-chevron-left"></i></button>
+                    <input class="form-control" type="month" id="month">
+                    <button class="btn btn-outline-secondary" type="button" data-shift="1" title="Наступний місяць"><i class="bi bi-chevron-right"></i></button>
+                </div>
+            </div>
+            <div class="col-sm d-none" id="user-picker" style="max-width: 360px">
+                <label class="form-label" for="user-id">Працівник</label>
+                <select class="form-select" id="user-id"></select>
+            </div>
+        </div>
+    </div></div>
+    <div class="row g-3 mb-4">
+        
+            <div class="col-6 col-md-3"><div class="card h-100"><div class="card-body">
+                <div class="tt-stat-label">Відпрацьовано</div><div class="tt-stat" id="t-worked">—</div><div class="small text-body-secondary" id="t-norm"></div>
+            </div></div></div>
+        
+            <div class="col-6 col-md-3"><div class="card h-100"><div class="card-body">
+                <div class="tt-stat-label">Різниця з нормою</div><div class="tt-stat" id="t-diff">—</div><div class="small text-body-secondary">виконано <span id="t-percent">—</span></div>
+            </div></div></div>
+        
+            <div class="col-6 col-md-3"><div class="card h-100"><div class="card-body">
+                <div class="tt-stat-label">Робочих днів</div><div class="tt-stat" id="t-days">—</div><div class="small text-body-secondary">запізнень: <span id="t-late">—</span></div>
+            </div></div></div>
+        
+            <div class="col-6 col-md-3"><div class="card h-100"><div class="card-body">
+                <div class="tt-stat-label">Відп. / лік. / відгул</div><div class="tt-stat" id="t-absent">—</div>
+            </div></div></div>
+    </div>
+    <div class="card">
+        <div class="table-responsive">
+            <table class="table table-sm align-middle mb-0 tt-timesheet">
+                <thead><tr><th>День</th><th>Статус</th><th>Прихід</th><th>Відхід</th><th>Обід</th><th>Відпрацьовано</th><th>Норма</th><th>Різниця</th></tr></thead>
+                <tbody id="days"></tbody>
+                <tfoot id="days-foot"></tfoot>
+            </table>
+        </div>
+    </div>
+    <p class="small text-body-secondary mt-3 mb-0">Час показано за вашим місцевим часом, API зберігає його в UTC. Рахуються лише завершені записи.</p>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios@1.7.7/dist/axios.min.js"></script>
+<script src="assets/js/config.js"></script>
+<script src="assets/js/format.js"></script>
+<!-- Мок-сервер: використовується, лише коли TT.config.USE_MOCK = true -->
+<script src="assets/js/mock/db.js"></script>
+<script src="assets/js/mock/server.js"></script>
+<script src="assets/js/mock/routes/auth.js"></script>
+<script src="assets/js/mock/routes/users.js"></script>
+<script src="assets/js/mock/routes/time.js"></script>
+<script src="assets/js/mock/routes/leaves.js"></script>
+<script src="assets/js/mock/routes/reports.js"></script>
+<script src="assets/js/mock/routes/holidays.js"></script>
+<!-- Застосунок -->
+<script src="assets/js/auth.js"></script>
+<script src="assets/js/api.js"></script>
+<script src="assets/js/layout.js"></script>
+<script src="assets/js/pages/timesheet.js"></script>
+</body>
+</html>

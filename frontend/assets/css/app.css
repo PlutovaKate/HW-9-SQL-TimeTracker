@@ -1,0 +1,373 @@
+/* TimeTracker: невеликі доповнення до Bootstrap 5.3 */
+
+:root,
+[data-bs-theme="light"] {
+    --tt-accent: #0d7c66;
+    --tt-accent-rgb: 13, 124, 102;
+    --tt-accent-hover: #0a6352;
+    --tt-work: #198754;
+    --tt-lunch: #e0a800;
+    --tt-off: #6c757d;
+    --tt-surface: #f5f7f6;
+    --bs-primary: var(--tt-accent);
+    --bs-primary-rgb: var(--tt-accent-rgb);
+    --bs-link-color: var(--tt-accent);
+    --bs-link-color-rgb: var(--tt-accent-rgb);
+    --bs-link-hover-color: var(--tt-accent-hover);
+}
+
+[data-bs-theme="dark"] {
+    --tt-accent: #2fb594;
+    --tt-accent-rgb: 47, 181, 148;
+    --tt-accent-hover: #4fcaa9;
+    --tt-work: #3fbf7f;
+    --tt-lunch: #f0c040;
+    --tt-off: #8a939b;
+    --tt-surface: #161a1d;
+    --bs-primary: var(--tt-accent);
+    --bs-primary-rgb: var(--tt-accent-rgb);
+    --bs-link-color: var(--tt-accent);
+    --bs-link-color-rgb: var(--tt-accent-rgb);
+    --bs-link-hover-color: var(--tt-accent-hover);
+}
+
+body {
+    background: var(--tt-surface);
+    min-height: 100vh;
+}
+
+.btn-primary {
+    --bs-btn-bg: var(--tt-accent);
+    --bs-btn-border-color: var(--tt-accent);
+    --bs-btn-hover-bg: var(--tt-accent-hover);
+    --bs-btn-hover-border-color: var(--tt-accent-hover);
+    --bs-btn-active-bg: var(--tt-accent-hover);
+    --bs-btn-active-border-color: var(--tt-accent-hover);
+    --bs-btn-disabled-bg: var(--tt-accent);
+    --bs-btn-disabled-border-color: var(--tt-accent);
+}
+
+.btn-outline-primary {
+    --bs-btn-color: var(--tt-accent);
+    --bs-btn-border-color: var(--tt-accent);
+    --bs-btn-hover-bg: var(--tt-accent);
+    --bs-btn-hover-border-color: var(--tt-accent);
+    --bs-btn-active-bg: var(--tt-accent);
+    --bs-btn-active-border-color: var(--tt-accent);
+}
+
+.nav-pills {
+    --bs-nav-pills-link-active-bg: var(--tt-accent);
+}
+
+.form-control:focus,
+.form-select:focus,
+.form-check-input:focus {
+    border-color: rgba(var(--tt-accent-rgb), 0.6);
+    box-shadow: 0 0 0 0.25rem rgba(var(--tt-accent-rgb), 0.2);
+}
+
+.form-check-input:checked {
+    background-color: var(--tt-accent);
+    border-color: var(--tt-accent);
+}
+
+.dropdown-menu {
+    --bs-dropdown-link-active-bg: var(--tt-accent);
+}
+
+.pagination {
+    --bs-pagination-color: var(--tt-accent);
+    --bs-pagination-hover-color: var(--tt-accent-hover);
+    --bs-pagination-active-bg: var(--tt-accent);
+    --bs-pagination-active-border-color: var(--tt-accent);
+    --bs-pagination-focus-box-shadow: 0 0 0 0.25rem rgba(var(--tt-accent-rgb), 0.2);
+}
+
+/* ---------- Навбар ---------- */
+.tt-navbar {
+    background: var(--bs-body-bg);
+}
+
+.tt-navbar .nav-link {
+    white-space: nowrap;
+}
+
+.tt-logo {
+    display: inline-grid;
+    place-items: center;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 0.6rem;
+    background: var(--tt-accent);
+    color: #fff;
+}
+
+.tt-mode-badge {
+    font-size: 0.7rem;
+    letter-spacing: 0.05em;
+}
+
+.tt-avatar {
+    display: inline-grid;
+    place-items: center;
+    flex-shrink: 0;
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: 50%;
+    background: rgba(var(--tt-accent-rgb), 0.15);
+    color: var(--tt-accent);
+    font-weight: 700;
+}
+
+.tt-avatar-sm {
+    width: 1.9rem;
+    height: 1.9rem;
+    font-size: 0.75rem;
+}
+
+/* ---------- Картки ---------- */
+.card {
+    border-color: var(--bs-border-color-translucent);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+
+.tt-page-title {
+    font-weight: 700;
+    letter-spacing: -0.01em;
+}
+
+.tt-stat {
+    font-size: 1.6rem;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    line-height: 1.2;
+}
+
+.tt-stat-label {
+    font-size: 0.8rem;
+    color: var(--bs-secondary-color);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.tabular {
+    font-variant-numeric: tabular-nums;
+}
+
+/* ---------- Картка стану (dashboard) ---------- */
+.tt-state {
+    --tt-state-color: var(--tt-off);
+    border: 0;
+    color: #fff;
+    background: linear-gradient(135deg, var(--tt-state-color), color-mix(in srgb, var(--tt-state-color) 65%, #000));
+}
+
+.tt-state[data-state="working"] {
+    --tt-state-color: var(--tt-work);
+}
+
+.tt-state[data-state="on_lunch"] {
+    --tt-state-color: #c98f00;
+}
+
+.tt-state .tt-clock {
+    font-size: clamp(2.5rem, 8vw, 4rem);
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.02em;
+    line-height: 1;
+}
+
+.tt-state .btn-light {
+    color: #1f2a25;
+}
+
+.tt-pulse {
+    display: inline-block;
+    width: 0.6rem;
+    height: 0.6rem;
+    border-radius: 50%;
+    background: #fff;
+    animation: tt-pulse 1.6s ease-in-out infinite;
+}
+
+@keyframes tt-pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.25; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .tt-pulse { animation: none; }
+}
+
+/* ---------- Таймлайн дня ---------- */
+.tt-timeline {
+    position: relative;
+    height: 2.25rem;
+    border-radius: 0.5rem;
+    background: var(--bs-tertiary-bg);
+    overflow: hidden;
+}
+
+.tt-timeline-seg {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    min-width: 2px;
+}
+
+.tt-timeline-seg.work {
+    background: var(--tt-work);
+    opacity: 0.85;
+}
+
+.tt-timeline-seg.lunch {
+    background: var(--tt-lunch);
+    top: 25%;
+    bottom: 25%;
+    border-radius: 0.25rem;
+}
+
+.tt-timeline-seg.open {
+    background-image: repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.25) 0 6px, transparent 6px 12px);
+}
+
+.tt-timeline-now {
+    position: absolute;
+    top: -2px;
+    bottom: -2px;
+    width: 2px;
+    background: var(--bs-danger);
+}
+
+.tt-timeline-scale {
+    position: relative;
+    height: 1rem;
+    font-size: 0.7rem;
+    color: var(--bs-secondary-color);
+    font-variant-numeric: tabular-nums;
+}
+
+.tt-timeline-scale span {
+    position: absolute;
+    transform: translateX(-50%);
+}
+
+.tt-timeline-scale span:first-child {
+    transform: none;
+}
+
+.tt-legend-dot {
+    display: inline-block;
+    width: 0.65rem;
+    height: 0.65rem;
+    border-radius: 50%;
+    margin-right: 0.25rem;
+}
+
+/* ---------- Табель ---------- */
+.tt-timesheet td,
+.tt-timesheet th {
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+}
+
+.tt-timesheet tr.ds-weekend > *,
+.tt-timesheet tr.ds-holiday > * {
+    --bs-table-bg: var(--bs-tertiary-bg);
+    color: var(--bs-secondary-color);
+}
+
+.tt-timesheet tr.ds-vacation > * {
+    --bs-table-bg: rgba(var(--bs-info-rgb), 0.12);
+}
+
+.tt-timesheet tr.ds-sick > * {
+    --bs-table-bg: rgba(var(--bs-warning-rgb), 0.15);
+}
+
+.tt-timesheet tr.ds-day_off > * {
+    --bs-table-bg: rgba(var(--tt-accent-rgb), 0.1);
+}
+
+.tt-timesheet tr.is-future > * {
+    color: var(--bs-tertiary-color);
+}
+
+.tt-timesheet tr.is-today > * {
+    box-shadow: inset 3px 0 0 var(--tt-accent);
+}
+
+/* ---------- API-консоль ---------- */
+.tt-console-btn {
+    position: fixed;
+    right: 1rem;
+    bottom: 1rem;
+    z-index: 1040;
+    border-radius: 2rem;
+}
+
+.tt-console {
+    --bs-offcanvas-width: min(560px, 100vw);
+}
+
+.tt-log-item summary {
+    cursor: pointer;
+    list-style: none;
+}
+
+.tt-log-item summary::-webkit-details-marker {
+    display: none;
+}
+
+.tt-log-item[open] summary,
+.tt-log-item summary:hover {
+    background: var(--bs-tertiary-bg);
+}
+
+.tt-method {
+    width: 4.2rem;
+}
+
+.tt-pre {
+    max-height: 260px;
+    overflow: auto;
+    padding: 0.5rem 0.75rem;
+    border-radius: 0.375rem;
+    background: var(--bs-tertiary-bg);
+    font-size: 0.75rem;
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
+/* ---------- Логін ---------- */
+.tt-login {
+    min-height: 100vh;
+    background:
+        radial-gradient(circle at 15% 20%, rgba(var(--tt-accent-rgb), 0.18), transparent 45%),
+        radial-gradient(circle at 85% 80%, rgba(var(--bs-warning-rgb), 0.12), transparent 40%),
+        var(--tt-surface);
+}
+
+.tt-demo-account {
+    cursor: pointer;
+}
+
+.tt-demo-account:hover {
+    background: var(--bs-tertiary-bg);
+}
+
+/* ---------- Мобільні ---------- */
+@media (max-width: 575.98px) {
+    .tt-console-btn {
+        right: 0.75rem;
+        bottom: 0.75rem;
+        padding: 0.35rem 0.75rem;
+    }
+
+    main.container {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+}

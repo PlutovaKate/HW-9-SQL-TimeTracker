@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="uk">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Відпустки · TimeTracker</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' rx='4' fill='%230d7c66'/%3E%3Cpath d='M8 4v4l2.5 1.5' stroke='white' stroke-width='1.6' fill='none' stroke-linecap='round'/%3E%3C/svg%3E">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="assets/css/app.css">
+    <script src="assets/js/theme.js"></script>
+</head>
+<body data-auth="user">
+<div id="tt-navbar"></div>
+<main class="container py-4">
+    
+    <div class="d-flex flex-wrap justify-content-between align-items-end gap-3 mb-4">
+        <div>
+            <h1 class="h3 tt-page-title mb-1" id="title">Відпустки та відсутності</h1>
+            <div class="text-body-secondary" id="subtitle">Відпустка, лікарняний або відгул</div>
+        </div>
+        <div class="d-flex flex-wrap gap-2"></div>
+    </div>
+    <div class="row g-4">
+        <div class="col-lg-5">
+            <div class="card mb-4">
+                <div class="card-header bg-transparent"><h2 class="h6 mb-0 py-1">Нова заявка</h2></div>
+                <div class="card-body">
+                    <form id="leave-form" novalidate>
+                        <div class="mb-3">
+                            <label class="form-label" for="type">Тип</label>
+                            <select class="form-select" id="type" name="type">
+                                <option value="vacation">Відпустка</option>
+                                <option value="day_off">Відгул</option>
+                                <option value="sick">Лікарняний</option>
+                            </select>
+                        </div>
+                        <div class="row g-3 mb-3">
+                            <div class="col-sm-6"><label class="form-label" for="date_from">З</label><input class="form-control" type="date" id="date_from" name="date_from"></div>
+                            <div class="col-sm-6"><label class="form-label" for="date_to">По (включно)</label><input class="form-control" type="date" id="date_to" name="date_to"></div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="comment">Коментар <span class="text-body-secondary">(необов'язково)</span></label>
+                            <textarea class="form-control" id="comment" name="comment" rows="2" maxlength="255"></textarea>
+                        </div>
+                        <div class="alert alert-light small mb-3" id="leave-preview"></div>
+                        <button class="btn btn-primary w-100" type="submit"><i class="bi bi-send me-1"></i>Подати заявку</button>
+                    </form>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header bg-transparent"><h2 class="h6 mb-0 py-1">Баланс відпустки</h2></div>
+                <div class="card-body" id="balance"><div class="placeholder-glow"><span class="placeholder col-8"></span></div></div>
+            </div>
+        </div>
+        <div class="col-lg-7">
+            <div class="card">
+                <div class="card-header bg-transparent"><h2 class="h6 mb-0 py-1">Мої заявки</h2></div>
+                <div class="table-responsive">
+                    <table class="table align-middle mb-0">
+                        <thead><tr><th>Тип</th><th>Період</th><th>Днів</th><th>Статус</th><th>Коментар</th><th></th></tr></thead>
+                        <tbody id="my-leaves"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios@1.7.7/dist/axios.min.js"></script>
+<script src="assets/js/config.js"></script>
+<script src="assets/js/format.js"></script>
+<!-- Мок-сервер: використовується, лише коли TT.config.USE_MOCK = true -->
+<script src="assets/js/mock/db.js"></script>
+<script src="assets/js/mock/server.js"></script>
+<script src="assets/js/mock/routes/auth.js"></script>
+<script src="assets/js/mock/routes/users.js"></script>
+<script src="assets/js/mock/routes/time.js"></script>
+<script src="assets/js/mock/routes/leaves.js"></script>
+<script src="assets/js/mock/routes/reports.js"></script>
+<script src="assets/js/mock/routes/holidays.js"></script>
+<!-- Застосунок -->
+<script src="assets/js/auth.js"></script>
+<script src="assets/js/api.js"></script>
+<script src="assets/js/layout.js"></script>
+<script src="assets/js/pages/leaves.js"></script>
+</body>
+</html>
