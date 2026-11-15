@@ -1,0 +1,160 @@
+# Список запитів для ДЗ. Створи кожен з них вручну в Postman.
+# {{baseUrl}} = http://localhost/api, {{token}} — токен Івана, {{adminToken}} — токен адміна (див. README, частина 0).
+# SQL для підготовки стану — у README біля кожного експерименту.
+
+@baseUrl = http://localhost/api
+
+### ======================= Частина 0: логіни =======================
+
+### Логін: Іван → {{token}}
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{"email": "ivan@example.com", "password": "password"}
+
+### Логін: адмін → {{adminToken}}
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{"email": "admin@example.com", "password": "password"}
+
+### ======================= Частина 1: check-in =======================
+
+### T1 / T2 / T3 / T4. Check-in → 201 | 409
+POST {{baseUrl}}/time/check-in
+Authorization: Bearer {{token}}
+
+### Check-in без токена → 401
+POST {{baseUrl}}/time/check-in
+
+### ======================= Частина 2: обід =======================
+
+### Початок обіду → 201 | 409
+POST {{baseUrl}}/time/lunch/start
+Authorization: Bearer {{token}}
+
+### Кінець обіду → 200 | 409
+POST {{baseUrl}}/time/lunch/end
+Authorization: Bearer {{token}}
+
+### ======================= Частина 3: check-out =======================
+
+### O1 / O2 / O3. Check-out → 200 | 409
+POST {{baseUrl}}/time/check-out
+Authorization: Bearer {{token}}
+
+### ======================= Частина 4: стан і записи =======================
+
+### S1 / S2 / S3. Стан дня → 200
+GET {{baseUrl}}/time/status
+Authorization: Bearer {{token}}
+
+### Мої записи за вересень → 200
+GET {{baseUrl}}/me/entries?from=2026-09-01&to=2026-09-30
+Authorization: Bearer {{token}}
+
+### to раніше за from → 422
+GET {{baseUrl}}/me/entries?from=2026-09-30&to=2026-09-01
+Authorization: Bearer {{token}}
+
+### Неіснуюча дата → 422
+GET {{baseUrl}}/me/entries?from=2026-02-30&to=2026-03-01
+Authorization: Bearer {{token}}
+
+### Записи працівника: Іван → 403
+GET {{baseUrl}}/time-entries?user_id=2&from=2026-09-01&to=2026-09-30
+Authorization: Bearer {{token}}
+
+### Записи працівника: адмін → 200
+GET {{baseUrl}}/time-entries?user_id=2&from=2026-09-01&to=2026-09-30
+Authorization: Bearer {{adminToken}}
+
+### Записи працівника: неіснуючий → 404
+GET {{baseUrl}}/time-entries?user_id=999&from=2026-09-01&to=2026-09-30
+Authorization: Bearer {{adminToken}}
+
+### ======================= Частина 5: правка адміном =======================
+# {id} — id запису work 06:00–10:00 з S2 (подивись у GET /time/status або в БД), D — сьогоднішня дата.
+
+### U1. Правка токеном Івана → 403 (з лекційним кодом — ?)
+PATCH {{baseUrl}}/time-entries/1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{"note": "hack"}
+
+### U1. Правка без токена → 401 (з лекційним кодом — ?)
+PATCH {{baseUrl}}/time-entries/1
+Content-Type: application/json
+
+{"note": "hack"}
+
+### Порожнє тіло → 422
+PATCH {{baseUrl}}/time-entries/{id}
+Authorization: Bearer {{adminToken}}
+Content-Type: application/json
+
+{}
+
+### Формат без T і Z → 422
+PATCH {{baseUrl}}/time-entries/{id}
+Authorization: Bearer {{adminToken}}
+Content-Type: application/json
+
+{"started_at": "2026-10-31 06:00:00"}
+
+### Майбутнє → 422
+PATCH {{baseUrl}}/time-entries/{id}
+Authorization: Bearer {{adminToken}}
+Content-Type: application/json
+
+{"started_at": "2099-01-01T06:00:00Z"}
+
+### Кінець раніше за початок → 422
+PATCH {{baseUrl}}/time-entries/{id}
+Authorization: Bearer {{adminToken}}
+Content-Type: application/json
+
+{"started_at": "DT06:00:00Z", "ended_at": "DT05:00:00Z"}
+
+### Неіснуючий запис → 404
+PATCH {{baseUrl}}/time-entries/99999
+Authorization: Bearer {{adminToken}}
+Content-Type: application/json
+
+{"started_at": "DT06:00:00Z"}
+
+### U3. Лише note → 200
+PATCH {{baseUrl}}/time-entries/{id}
+Authorization: Bearer {{adminToken}}
+Content-Type: application/json
+
+{"started_at": "DT06:00:00Z", "ended_at": "DT10:00:00Z", "note": "Забув відмітитись"}
+
+### Перетин з 11:00–12:00 → 409
+PATCH {{baseUrl}}/time-entries/{id}
+Authorization: Bearer {{adminToken}}
+Content-Type: application/json
+
+{"started_at": "DT06:00:00Z", "ended_at": "DT11:30:00Z"}
+
+### U4. Відкритий кінець → 409
+PATCH {{baseUrl}}/time-entries/{id}
+Authorization: Bearer {{adminToken}}
+Content-Type: application/json
+
+{"started_at": "DT06:00:00Z", "ended_at": null}
+
+### Обід поза роботою → 409 (id обіду 08:00–08:30)
+PATCH {{baseUrl}}/time-entries/{lunchId}
+Authorization: Bearer {{adminToken}}
+Content-Type: application/json
+
+{"started_at": "DT10:15:00Z", "ended_at": "DT10:45:00Z"}
+
+### U2. Зайві поля → 200, user_id і type не змінились
+PATCH {{baseUrl}}/time-entries/{lunchId}
+Authorization: Bearer {{adminToken}}
+Content-Type: application/json
+
+{"started_at": "DT09:00:00Z", "ended_at": "DT09:30:00Z", "user_id": 3, "type": "work"}

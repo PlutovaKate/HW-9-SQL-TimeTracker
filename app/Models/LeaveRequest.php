@@ -3,11 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class LeaveRequest extends Model
 {
-
     protected $table = 'leave_requests';
+
     const UPDATED_AT = null;
 
     protected $fillable = [
@@ -19,7 +20,7 @@ class LeaveRequest extends Model
         'comment',
         'reviewed_by',
         'reviewed_at',
-
+        'created_at',
     ];
 
     protected $casts = [
@@ -29,13 +30,12 @@ class LeaveRequest extends Model
         'created_at' => 'datetime',
     ];
 
-
-    public function user()
+    public function user(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->belongsTo(User::class);
     }
 
-    public function reviewer()
+    public function reviewer(): BelongsTo
     {
         return $this->belongsTo(User::class, 'reviewed_by');
     }
