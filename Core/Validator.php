@@ -30,6 +30,8 @@ class Validator
                     ], true)
                     && !str_starts_with($rule, 'min:')
                     && !str_starts_with($rule, 'max:')
+                    && !str_starts_with($rule, 'in:')
+                    && !str_starts_with($rule, 'regex:')
                 ) {
                     throw new \InvalidArgumentException(
                         "Неизвестное правило: $rule"
@@ -93,6 +95,23 @@ class Validator
             }
 
             foreach ($rules as $rule) {
+                if (str_starts_with($rule, 'regex:')) {
+                    $pattern = substr($rule, 6);
+
+                    if (!is_string($value) || preg_match($pattern, $value) !== 1) {
+                        static::$errors[$field][] = 'Invalid format';
+                    }
+                }
+
+                if (str_starts_with($rule, 'in:')) {
+                    $allowed = explode(',', substr($rule, 3));
+
+                    if (!is_string($value) || !in_array($value, $allowed, true)) {
+                        static::$errors[$field][] =
+                            'Must be one of: ' . implode(',', $allowed);
+                    }
+                }
+
                 if (str_starts_with($rule, 'min:')) {
                     $min = (int) substr($rule, 4);
 
@@ -131,5 +150,19 @@ class Validator
     public static function errors(): array
     {
         return static::$errors;
+    }
+
+
+    public static function validateOrFail(array $data): void
+    {
+        if (!static::validate($data)) {
+            $errors = [];
+
+            foreach (static::errors() as $field => $messages) {
+                $errors[$field] = $messages[0];
+            }
+
+            throw HttpException::validation($errors);
+        }
     }
 }
