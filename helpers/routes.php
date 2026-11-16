@@ -24,4 +24,10 @@ return [
     // HW-12 — Admin
     ['GET', '/api/time-entries', [\App\Controllers\TimeController::class, 'index']],
     ['PATCH', '/api/time-entries/{id}', [\App\Controllers\TimeController::class, 'update']],
+
+
+    ['GET', '/api/reports/timesheet', [\App\Controllers\ReportController::class, 'timesheet']],
+    ['GET', '/api/reports/team', [\App\Controllers\ReportController::class, 'team']],
+    ['GET', '/api/reports/entries', [\App\Controllers\ReportController::class, 'journal']],
+
 ];

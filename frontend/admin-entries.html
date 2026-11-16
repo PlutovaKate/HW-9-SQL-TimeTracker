@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="uk">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Записи часу · TimeTracker</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' rx='4' fill='%230d7c66'/%3E%3Cpath d='M8 4v4l2.5 1.5' stroke='white' stroke-width='1.6' fill='none' stroke-linecap='round'/%3E%3C/svg%3E">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="assets/css/app.css">
+    <script src="assets/js/theme.js"></script>
+</head>
+<body data-auth="admin">
+<div id="tt-navbar"></div>
+<main class="container py-4">
+    
+    <div class="d-flex flex-wrap justify-content-between align-items-end gap-3 mb-4">
+        <div>
+            <h1 class="h3 tt-page-title mb-1" id="title">Записи часу</h1>
+            <div class="text-body-secondary" id="subtitle">Перегляд і ручна правка записів працівника</div>
+        </div>
+        <div class="d-flex flex-wrap gap-2"></div>
+    </div>
+    <div class="card mb-4"><div class="card-body">
+        <form class="row g-3 align-items-end" id="filter-form" novalidate>
+            <div class="col-md-4"><label class="form-label" for="user_id">Працівник</label><select class="form-select" id="user_id" name="user_id"></select></div>
+            <div class="col-sm-6 col-md-3"><label class="form-label" for="from">З</label><input class="form-control" type="date" id="from" name="from"></div>
+            <div class="col-sm-6 col-md-3"><label class="form-label" for="to">По</label><input class="form-control" type="date" id="to" name="to"></div>
+            <div class="col-md-2"><button class="btn btn-primary w-100" type="submit">Показати</button></div>
+        </form>
+    </div></div>
+    <div class="card">
+        <div class="table-responsive">
+            <table class="table align-middle mb-0">
+                <thead><tr><th>Дата</th><th>Тип</th><th>Початок</th><th>Кінець</th><th>Тривалість</th><th>Позначки</th><th></th></tr></thead>
+                <tbody id="entries"></tbody>
+            </table>
+        </div>
+    </div>
+</main>
+
+<div class="modal fade" id="entry-modal" tabindex="-1" aria-labelledby="entry-modal-title">
+    <div class="modal-dialog modal-dialog-centered">
+        <form class="modal-content" id="entry-form" novalidate>
+            <div class="modal-header"><h5 class="modal-title" id="entry-modal-title">Запис</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
+            <div class="modal-body">
+                <div class="row g-3">
+                    <div class="col-sm-6"><label class="form-label" for="e-started_at">Початок</label><input class="form-control" type="datetime-local" id="e-started_at" name="started_at"></div>
+                    <div class="col-sm-6"><label class="form-label" for="e-ended_at">Кінець</label><input class="form-control" type="datetime-local" id="e-ended_at" name="ended_at">
+                        <div class="form-text">Порожньо — запис ще триває</div></div>
+                    <div class="col-12"><label class="form-label" for="e-note">Примітка</label><input class="form-control" id="e-note" name="note" maxlength="255" placeholder="Напр.: забув відмітитись"></div>
+                </div>
+                <div class="small text-body-secondary mt-3" id="utc-preview"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Скасувати</button>
+                <button type="submit" class="btn btn-primary">Зберегти</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios@1.7.7/dist/axios.min.js"></script>
+<script src="assets/js/config.js"></script>
+<script src="assets/js/format.js"></script>
+<!-- Мок-сервер: використовується, лише коли TT.config.USE_MOCK = true -->
+<script src="assets/js/mock/db.js"></script>
+<script src="assets/js/mock/server.js"></script>
+<script src="assets/js/mock/routes/auth.js"></script>
+<script src="assets/js/mock/routes/users.js"></script>
+<script src="assets/js/mock/routes/time.js"></script>
+<script src="assets/js/mock/routes/leaves.js"></script>
+<script src="assets/js/mock/routes/reports.js"></script>
+<script src="assets/js/mock/routes/holidays.js"></script>
+<!-- Застосунок -->
+<script src="assets/js/auth.js"></script>
+<script src="assets/js/api.js"></script>
+<script src="assets/js/layout.js"></script>
+<script src="assets/js/pages/admin-entries.js"></script>
+</body>
+</html>

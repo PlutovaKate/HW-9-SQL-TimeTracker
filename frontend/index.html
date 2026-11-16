@@ -1,0 +1,14 @@
+<!doctype html>
+<html lang="uk">
+<head>
+    <meta charset="utf-8">
+    <title>TimeTracker</title>
+    <script>
+        // є токен → на головну, немає → на вхід
+        let token = null;
+        try { token = JSON.parse(localStorage.getItem('tt_token')); } catch (e) { token = null; }
+        location.replace(token ? 'dashboard.html' : 'login.html');
+    </script>
+</head>
+<body></body>
+</html>

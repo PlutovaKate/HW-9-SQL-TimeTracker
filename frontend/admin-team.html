@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="uk">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Команда · TimeTracker</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' rx='4' fill='%230d7c66'/%3E%3Cpath d='M8 4v4l2.5 1.5' stroke='white' stroke-width='1.6' fill='none' stroke-linecap='round'/%3E%3C/svg%3E">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="assets/css/app.css">
+    <script src="assets/js/theme.js"></script>
+</head>
+<body data-auth="admin">
+<div id="tt-navbar"></div>
+<main class="container py-4">
+    
+    <div class="d-flex flex-wrap justify-content-between align-items-end gap-3 mb-4">
+        <div>
+            <h1 class="h3 tt-page-title mb-1" id="title">Команда</h1>
+            <div class="text-body-secondary" id="subtitle">Хто на роботі та звіт за період</div>
+        </div>
+        <div class="d-flex flex-wrap gap-2"></div>
+    </div>
+    <section class="mb-5">
+        <div class="d-flex flex-wrap align-items-center gap-2 mb-3">
+            <h2 class="h5 mb-0">Зараз на роботі <span class="badge text-bg-success ms-1" id="present-count">—</span></h2>
+            <small class="text-body-secondary ms-sm-2" id="present-updated"></small>
+            <button class="btn btn-sm btn-outline-secondary ms-auto" id="present-refresh" type="button"><i class="bi bi-arrow-clockwise"></i></button>
+        </div>
+        <div class="row g-3" id="present"></div>
+    </section>
+    <section>
+        <div class="d-flex flex-wrap justify-content-between align-items-end gap-2 mb-3">
+            <h2 class="h5 mb-0">Звіт по команді</h2>
+            
+            <div class="btn-group">
+                <button type="button" class="btn btn-outline-secondary" data-export="csv"><i class="bi bi-filetype-csv me-1"></i>CSV</button>
+                <button type="button" class="btn btn-outline-secondary" data-export="json"><i class="bi bi-filetype-json me-1"></i>JSON</button>
+                <button type="button" class="btn btn-outline-secondary" data-export="md"><i class="bi bi-markdown me-1"></i>MD</button>
+                <button type="button" class="btn btn-outline-secondary" data-export="xlsx"><i class="bi bi-filetype-xlsx me-1"></i>XLSX</button>
+            </div>
+        </div>
+        <div class="card mb-3"><div class="card-body">
+            <form class="row g-3 align-items-end" id="team-form" novalidate>
+                <div class="col-sm-6 col-md-3"><label class="form-label" for="from">З</label><input class="form-control" type="date" id="from" name="from"></div>
+                <div class="col-sm-6 col-md-3"><label class="form-label" for="to">По</label><input class="form-control" type="date" id="to" name="to"></div>
+                <div class="col-md-auto"><button class="btn btn-primary" type="submit"><i class="bi bi-bar-chart me-1"></i>Побудувати</button></div>
+                <div class="col-md-auto"><div class="btn-group" id="journal-buttons"><button type="button" class="btn btn-outline-secondary" data-journal="csv"><i class="bi bi-journal-text me-1"></i>Журнал CSV</button><button type="button" class="btn btn-outline-secondary" data-journal="xlsx"><i class="bi bi-filetype-xlsx me-1"></i>Журнал XLSX</button></div></div>
+                <div class="col-md-auto ms-md-auto"><div class="btn-group btn-group-sm" role="group"><button type="button" class="btn btn-outline-secondary" data-preset="month">Цей місяць</button><button type="button" class="btn btn-outline-secondary" data-preset="last_month">Минулий місяць</button><button type="button" class="btn btn-outline-secondary" data-preset="two_months">3 місяці</button></div></div>
+            </form>
+        </div></div>
+        <div class="card">
+            <div class="table-responsive">
+                <table class="table align-middle mb-0 tabular">
+                    <thead><tr><th>Працівник</th><th>Відпрацьовано</th><th>Норма</th><th>Різниця</th><th>Запізнення</th><th>Відпустка</th><th>Лікарняний</th><th>Відгул</th></tr></thead>
+                    <tbody id="team"></tbody>
+                    <tfoot id="team-foot"></tfoot>
+                </table>
+            </div>
+        </div>
+    </section>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios@1.7.7/dist/axios.min.js"></script>
+<script src="assets/js/config.js"></script>
+<script src="assets/js/format.js"></script>
+<!-- Мок-сервер: використовується, лише коли TT.config.USE_MOCK = true -->
+<script src="assets/js/mock/db.js"></script>
+<script src="assets/js/mock/server.js"></script>
+<script src="assets/js/mock/routes/auth.js"></script>
+<script src="assets/js/mock/routes/users.js"></script>
+<script src="assets/js/mock/routes/time.js"></script>
+<script src="assets/js/mock/routes/leaves.js"></script>
+<script src="assets/js/mock/routes/reports.js"></script>
+<script src="assets/js/mock/routes/holidays.js"></script>
+<!-- Застосунок -->
+<script src="assets/js/auth.js"></script>
+<script src="assets/js/api.js"></script>
+<script src="assets/js/layout.js"></script>
+<script src="assets/js/pages/admin-team.js"></script>
+</body>
+</html>

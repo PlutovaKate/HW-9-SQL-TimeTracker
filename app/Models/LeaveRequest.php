@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use App\Enums\LeaveType;
+use App\Enums\LeaveStatus;
 
 class LeaveRequest extends Model
 {
@@ -24,6 +26,8 @@ class LeaveRequest extends Model
     ];
 
     protected $casts = [
+        'type' => LeaveType::class,
+        'status' => LeaveStatus::class,
         'date_from' => 'date',
         'date_to' => 'date',
         'reviewed_at' => 'datetime',

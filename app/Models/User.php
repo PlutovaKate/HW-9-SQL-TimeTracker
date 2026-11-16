@@ -10,6 +10,9 @@ use DateTimeInterface;
 
 class User extends Model
 {
+
+    public const int LATE_TOLERANCE = 10;
+
     protected $fillable = [
         'full_name',
         'email',
@@ -77,5 +80,13 @@ class User extends Model
     public function leaveRequestReviews()
     {
         return $this->hasMany(LeaveRequest::class, 'reviewed_by');
+    }
+
+    public function isLate(string $startedAt): bool
+    {
+        $deadline = strtotime(substr($startedAt, 0, 10) . ' ' . $this->work_start)
+            + self::LATE_TOLERANCE * 60;
+
+        return strtotime($startedAt) > $deadline;
     }
 }

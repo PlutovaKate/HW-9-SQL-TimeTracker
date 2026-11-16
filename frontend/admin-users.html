@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="uk">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Користувачі · TimeTracker</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' rx='4' fill='%230d7c66'/%3E%3Cpath d='M8 4v4l2.5 1.5' stroke='white' stroke-width='1.6' fill='none' stroke-linecap='round'/%3E%3C/svg%3E">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="assets/css/app.css">
+    <script src="assets/js/theme.js"></script>
+</head>
+<body data-auth="admin">
+<div id="tt-navbar"></div>
+<main class="container py-4">
+    
+    <div class="d-flex flex-wrap justify-content-between align-items-end gap-3 mb-4">
+        <div>
+            <h1 class="h3 tt-page-title mb-1" id="title">Користувачі</h1>
+            <div class="text-body-secondary" id="subtitle">Усього: <span id="total">—</span></div>
+        </div>
+        <div class="d-flex flex-wrap gap-2"><button class="btn btn-primary" id="new-user" type="button"><i class="bi bi-person-plus me-1"></i>Новий користувач</button></div>
+    </div>
+    <div class="card">
+        <div class="table-responsive">
+            <table class="table align-middle mb-0">
+                <thead><tr><th>#</th><th>Користувач</th><th>Роль</th><th>Початок дня</th><th>Норма · відпустка</th><th>Статус</th><th></th></tr></thead>
+                <tbody id="users"></tbody>
+            </table>
+        </div>
+        <div class="card-footer bg-transparent d-flex flex-wrap justify-content-between align-items-center gap-2">
+            <div class="d-flex align-items-center gap-2 small">
+                <label for="per-page" class="text-body-secondary">На сторінці</label>
+                <select class="form-select form-select-sm w-auto" id="per-page"><option>3</option><option>5</option><option>10</option><option>20</option></select>
+            </div>
+            <nav aria-label="Сторінки"><ul class="pagination pagination-sm mb-0" id="pagination"></ul></nav>
+        </div>
+    </div>
+</main>
+
+<div class="modal fade" id="user-modal" tabindex="-1" aria-labelledby="user-modal-title">
+    <div class="modal-dialog modal-dialog-centered">
+        <form class="modal-content" id="user-form" novalidate>
+            <div class="modal-header"><h5 class="modal-title" id="user-modal-title">Користувач</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
+            <div class="modal-body">
+                <div class="mb-3"><label class="form-label" for="u-full_name">ПІБ</label><input class="form-control" id="u-full_name" name="full_name"></div>
+                <div class="mb-3"><label class="form-label" for="u-email">Email</label><input class="form-control" type="email" id="u-email" name="email"></div>
+                <div class="mb-3" id="password-group"><label class="form-label" for="u-password">Пароль</label>
+                    <input class="form-control" type="password" id="u-password" name="password" autocomplete="new-password"><div class="form-text">Мінімум 8 символів</div></div>
+                <div class="row g-3">
+                    <div class="col-sm-6"><label class="form-label" for="u-role">Роль</label>
+                        <select class="form-select" id="u-role" name="role"><option value="employee">Працівник</option><option value="admin">Адміністратор</option></select></div>
+                    <div class="col-sm-6"><label class="form-label" for="u-work_start">Початок дня (UTC)</label>
+                        <input class="form-control" type="time" id="u-work_start" name="work_start"><div class="form-text" id="work-start-hint"></div></div>
+                    <div class="col-sm-6"><label class="form-label" for="u-daily_hours">Норма, год/день</label>
+                        <input class="form-control" type="number" min="1" max="12" id="u-daily_hours" name="daily_hours" data-type="int"></div>
+                    <div class="col-sm-6"><label class="form-label" for="u-vacation_days">Відпустка, днів/рік</label>
+                        <input class="form-control" type="number" min="0" max="60" id="u-vacation_days" name="vacation_days" data-type="int"></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Скасувати</button>
+                <button type="submit" class="btn btn-primary">Зберегти</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios@1.7.7/dist/axios.min.js"></script>
+<script src="assets/js/config.js"></script>
+<script src="assets/js/format.js"></script>
+<!-- Мок-сервер: використовується, лише коли TT.config.USE_MOCK = true -->
+<script src="assets/js/mock/db.js"></script>
+<script src="assets/js/mock/server.js"></script>
+<script src="assets/js/mock/routes/auth.js"></script>
+<script src="assets/js/mock/routes/users.js"></script>
+<script src="assets/js/mock/routes/time.js"></script>
+<script src="assets/js/mock/routes/leaves.js"></script>
+<script src="assets/js/mock/routes/reports.js"></script>
+<script src="assets/js/mock/routes/holidays.js"></script>
+<!-- Застосунок -->
+<script src="assets/js/auth.js"></script>
+<script src="assets/js/api.js"></script>
+<script src="assets/js/layout.js"></script>
+<script src="assets/js/pages/admin-users.js"></script>
+</body>
+</html>

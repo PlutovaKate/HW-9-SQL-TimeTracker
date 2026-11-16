@@ -13,6 +13,7 @@
     "larapack/dd": "1.*",
     "vlucas/phpdotenv": "*",
     "ext-pdo": "*",
-    "illuminate/database": "^13.39"
+    "illuminate/database": "^13.39",
+    "openspout/openspout": "^5.13"
   }
 }

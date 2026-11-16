@@ -95,3 +95,27 @@ function publicUser(array $user): array
         'created_at' => gmdate('c', strtotime($user['created_at'] . ' UTC')),
     ];
 }
+
+
+
+function download(
+    \App\Services\Export\Contracts\Export $exporter,
+    iterable $rows,
+    string $fileName
+): void {
+    header('Content-Type: ' . $exporter->contentType());
+
+    header(sprintf(
+        'Content-Disposition: attachment; filename="%s.%s"',
+        $fileName,
+        $exporter->extension()
+    ));
+
+    while (ob_get_level() > 0) {
+        ob_end_flush();
+    }
+
+    set_time_limit(0);
+
+    $exporter->write($rows);
+}

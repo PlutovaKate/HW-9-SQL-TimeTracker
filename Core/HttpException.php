@@ -14,4 +14,19 @@ class HttpException extends Exception
     ) {
         parent::__construct($message);
     }
+
+    public static function validation(array $fields): self
+    {
+        return new self(
+            422,
+            'VALIDATION_ERROR',
+            'Validation failed',
+            $fields
+        );
+    }
+
+    public static function forbidden(): self
+    {
+        return new self(403, 'forbidden', 'Forbidden');
+    }
 }

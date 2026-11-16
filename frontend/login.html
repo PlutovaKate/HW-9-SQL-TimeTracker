@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="uk">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Вхід · TimeTracker</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' rx='4' fill='%230d7c66'/%3E%3Cpath d='M8 4v4l2.5 1.5' stroke='white' stroke-width='1.6' fill='none' stroke-linecap='round'/%3E%3C/svg%3E">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="assets/css/app.css">
+    <script src="assets/js/theme.js"></script>
+</head>
+<body data-auth="guest">
+<main class="tt-login d-flex align-items-center py-5">
+    <div class="container" style="max-width: 1000px">
+        <div class="row g-5 align-items-center">
+            <div class="col-lg-6">
+                <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="tt-logo"><i class="bi bi-stopwatch"></i></span>
+                    <span class="fs-4 fw-bold">TimeTracker</span>
+                </div>
+                <h1 class="display-6 fw-bold mb-3">Облік робочого часу без зайвих таблиць</h1>
+                <p class="lead text-body-secondary mb-4">Прихід і відхід, обід, відпустки та лікарняні, табель за місяць і звіти по команді.</p>
+                <ul class="list-unstyled text-body-secondary mb-0">
+                    <li class="mb-2"><i class="bi bi-check2-circle text-primary me-2"></i>Одна кнопка — і день почався</li>
+                    <li class="mb-2"><i class="bi bi-check2-circle text-primary me-2"></i>Залишок відпустки завжди перед очима</li>
+                    <li><i class="bi bi-check2-circle text-primary me-2"></i>Табель у CSV для бухгалтерії</li>
+                </ul>
+            </div>
+            <div class="col-lg-6">
+                <div class="card shadow-sm">
+                    <div class="card-body p-4 p-md-5">
+                        <h2 class="h4 fw-bold mb-4">Вхід</h2>
+                        <div class="alert alert-danger d-none" id="login-alert" role="alert"></div>
+                        <form id="login-form" novalidate>
+                            <div class="mb-3">
+                                <label class="form-label" for="email">Email</label>
+                                <input class="form-control form-control-lg" id="email" name="email" type="email" autocomplete="username" required autofocus>
+                            </div>
+                            <div class="mb-4">
+                                <label class="form-label" for="password">Пароль</label>
+                                <input class="form-control form-control-lg" id="password" name="password" type="password" autocomplete="current-password" required>
+                            </div>
+                            <button class="btn btn-primary btn-lg w-100" type="submit">Увійти</button>
+                        </form>
+                        <div id="demo-block" class="d-none">
+                            <hr class="my-4">
+                            <div class="small text-body-secondary mb-2">Демо-акаунти (пароль <code>password</code>) — клікніть, щоб увійти:</div>
+                            <div class="list-group" id="demo-accounts"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios@1.7.7/dist/axios.min.js"></script>
+<script src="assets/js/config.js"></script>
+<script src="assets/js/format.js"></script>
+<!-- Мок-сервер: використовується, лише коли TT.config.USE_MOCK = true -->
+<script src="assets/js/mock/db.js"></script>
+<script src="assets/js/mock/server.js"></script>
+<script src="assets/js/mock/routes/auth.js"></script>
+<script src="assets/js/mock/routes/users.js"></script>
+<script src="assets/js/mock/routes/time.js"></script>
+<script src="assets/js/mock/routes/leaves.js"></script>
+<script src="assets/js/mock/routes/reports.js"></script>
+<script src="assets/js/mock/routes/holidays.js"></script>
+<!-- Застосунок -->
+<script src="assets/js/auth.js"></script>
+<script src="assets/js/api.js"></script>
+<script src="assets/js/layout.js"></script>
+<script src="assets/js/pages/login.js"></script>
+</body>
+</html>
